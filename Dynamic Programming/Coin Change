@@ -1,0 +1,31 @@
+def count_ways_to_make_sum(coins, target_sum, num_coins, memo):
+    # Base Case
+    if target_sum == 0:
+        memo[num_coins][target_sum] = 1
+        return memo[num_coins][target_sum]
+
+    # If the number of coins is 0 or the sum is less than 0, there is no way to make the sum.
+    if num_coins == 0 or target_sum < 0:
+        return 0
+
+    # If the subproblem is previously calculated, return the result.
+    if memo[num_coins][target_sum] != -1:
+        return memo[num_coins][target_sum]
+
+    # Two options for the current coin
+    memo[num_coins][target_sum] = count_ways_to_make_sum(coins, target_sum - coins[num_coins - 1], num_coins, memo) + \
+        count_ways_to_make_sum(coins, target_sum, num_coins - 1, memo)
+
+    return memo[num_coins][target_sum]
+
+# Driver code
+if __name__ == '__main__':
+    test_cases = 1
+    while test_cases != 0:
+        num_coins = 3
+        target_sum = 5
+        coin_values = [1, 2, 3]
+        memoization_table = [[-1 for _ in range(target_sum + 1)] for _ in range(num_coins + 1)]
+        result = count_ways_to_make_sum(coin_values, target_sum, num_coins, memoization_table)
+        print(result)
+        test_cases -= 1
